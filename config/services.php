@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'swop' => [
+        'base_url' => env('SWOP_API_BASE_URL', 'https://swop.cx/rest'),
+        'cache_ttl' => env('SWOP_API_CACHE_TTL', 3600),
+    ],
 ];
