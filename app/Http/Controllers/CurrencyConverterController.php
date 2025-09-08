@@ -2,62 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\CurrencyConverterService;
+use App\Services\Contracts\CurrencyConverterInterface;
 use App\Http\Requests\ConvertCurrencyRequest;
 use Illuminate\Http\JsonResponse;
 
 class CurrencyConverterController extends Controller
 {
-    protected CurrencyConverterService $converterService;
 
-    public function __construct(CurrencyConverterService $converterService)
-    {
-        $this->converterService = $converterService;
-    }
+    public function __construct(
+        private CurrencyConverterInterface $currencyConverter
+    ) {}
 
     public function convert(ConvertCurrencyRequest $request): JsonResponse
     {
         try {
-            $result = $this->converterService->convert(
-                $request->validated('amount'),
-                $request->validated('from_currency'),
-                $request->validated('to_currency')
+            $result = $this->currencyConverter->convert(
+                amount: $request->validated('amount'),
+                fromCurrency: $request->validated('from_currency'),
+                toCurrency: $request->validated('to_currency')
             );
 
             return response()->json([
                 'success' => true,
-                'data' => $result,
+                'data' => $result->toArray(),
             ]);
+
+        } catch (\App\Exceptions\CurrencyConversionException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 422);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Currency conversion failed',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    public function getRate(string $fromCurrency, string $toCurrency): JsonResponse
-    {
-        try {
-            $rate = $this->converterService->getExchangeRate($fromCurrency, $toCurrency);
-
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'from_currency' => strtoupper($fromCurrency),
-                    'to_currency' => strtoupper($toCurrency),
-                    'exchange_rate' => $rate,
-                    'timestamp' => now()->toISOString(),
-                ],
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch exchange rate',
-                'error' => $e->getMessage(),
+                'message' => 'An unexpected error occurred',
             ], 500);
         }
     }

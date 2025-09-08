@@ -34,6 +34,7 @@ class ConvertCurrencyRequest extends FormRequest
             'to_currency.required' => 'To currency is required',
             'to_currency.size' => 'To currency must be 3 characters',
             'to_currency.alpha' => 'To currency must contain only letters',
+            'to_currency.different' => 'Source and target currencies must be different',
         ];
     }
 
@@ -44,5 +45,13 @@ class ConvertCurrencyRequest extends FormRequest
             'message' => 'Validation errors',
             'errors' => $validator->errors(),
         ], 422));
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'from_currency' => strtoupper($this->from_currency),
+            'to_currency' => strtoupper($this->to_currency),
+        ]);
     }
 }
