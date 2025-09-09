@@ -45,9 +45,9 @@ class SwopCurrencyConverter implements CurrencyConverterInterface
     private function getExchangeRate(string $fromCurrency, string $toCurrency): float
     {
         $cacheKey = "exchange_rate:{$fromCurrency}:{$toCurrency}";
-        // return Cache::remember($cacheKey, $this->cacheTtl, function () use ($fromCurrency, $toCurrency) {
+        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($fromCurrency, $toCurrency) {
             return $this->fetchExchangeRateFromApi($fromCurrency, $toCurrency);
-        // });
+        });
     }
 
     private function fetchExchangeRateFromApi(string $fromCurrency, string $toCurrency): float

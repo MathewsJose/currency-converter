@@ -54,7 +54,6 @@ class InfluxDBService
     private function buildLineProtocol(string $measurement, array $tags, array $fields): string
     {        
         $line = $measurement;
-        
         if (!empty($tags)) {
             $tagParts = [];
             foreach ($tags as $key => $value) {
@@ -70,6 +69,7 @@ class InfluxDBService
                 
         $line .= ' ';
                 
+        // Add fields - CRITICAL: Ensure field names match what Grafana expects
         $fieldParts = [];
         foreach ($fields as $key => $value) {
             if ($value === null) continue;
@@ -81,9 +81,16 @@ class InfluxDBService
             } elseif (is_bool($value)) {
                 $fieldParts[] = $key . '=' . ($value ? 'true' : 'false');
             } elseif (is_scalar($value)) {
+                // String fields should be quoted
                 $fieldParts[] = $key . '="' . str_replace('"', '\"', (string)$value) . '"';
             }
         }
+        
+        if (empty($fieldParts)) {
+            // Always include at least one field
+            $fieldParts[] = 'value=1i';
+        }
+        
         $line .= implode(',', $fieldParts);                
         $line .= ' ';                
         $line .= (int)(microtime(true) * 1000000000);        

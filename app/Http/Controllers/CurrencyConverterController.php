@@ -84,7 +84,7 @@ class CurrencyConverterController extends Controller
     private function logConversionMetrics(array $data): void
     {
         try {
-            $influxService = app(SimpleInfluxService::class);
+            $influxService = app(InfluxDBService::class);
             
             $influxService->writeMeasurement(
                 'currency_conversion',
@@ -98,7 +98,7 @@ class CurrencyConverterController extends Controller
                     'duration_ms' => (float)$data['duration_ms'],
                     'exchange_rate' => isset($data['exchange_rate']) ? (float)$data['exchange_rate'] : 0,
                     'converted_amount' => isset($data['converted_amount']) ? (float)$data['converted_amount'] : 0,
-                    'error' => $data['error'] ?? ''
+                    'count' => 1 // Always include a count field for aggregation
                 ]
             );
 

@@ -42,7 +42,7 @@ return [
     ],
 
     'influxdb' => [
-        'url' => env('INFLUXDB_URL', 'http://localhost:8086'),
+        'url' => env('INFLUXDB_URL', 'http://influxdb:8086'),
         'token' => env('INFLUXDB_TOKEN'),
         'bucket' => env('INFLUXDB_BUCKET', 'currency_converter'),
         'org' => env('INFLUXDB_ORG', 'currency-converter'),

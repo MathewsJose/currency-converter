@@ -6,11 +6,12 @@ datasources:
     access: proxy
     url: http://influxdb:8086
     isDefault: true
-    version: 2
     jsonData:
       version: Flux
       organization: currency-converter
       defaultBucket: currency_converter
-      tlsSkipVerify: true
+      tlsAuth: false
+      tlsAuthWithCACert: false
     secureJsonData:
-      token: ${INFLUXDB_TOKEN}
+      token: currency_converter_token_123
+    editable: true

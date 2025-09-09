@@ -1,0 +1,21 @@
+{
+  "dashboard": {
+    "title": "API Performance Metrics",
+    "panels": [
+      {
+        "title": "API Response Times",
+        "type": "timeseries",
+        "targets": [{
+          "query": "from(bucket: \"currency_converter\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"exchange_rate_api\")\n  |> filter(fn: (r) => r._field == \"duration_ms\")\n  |> aggregateWindow(every: 1m, fn: mean, createEmpty: false)"
+        }]
+      },
+      {
+        "title": "API Success Rate",
+        "type": "stat",
+        "targets": [{
+          "query": "from(bucket: \"currency_converter\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"exchange_rate_api\")\n  |> group(columns: [\"status\"])\n  |> count()"
+        }]
+      }
+    ]
+  }
+}
