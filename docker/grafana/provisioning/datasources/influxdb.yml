@@ -9,9 +9,8 @@ datasources:
     version: 2
     jsonData:
       version: Flux
-      organization: currency-org
-      defaultBucket: currency-metrics
-      tlsAuth: false
-      tlsAuthWithCACert: false
+      organization: currency-converter
+      defaultBucket: currency_converter
+      tlsSkipVerify: true
     secureJsonData:
-      token: my-super-secret-auth-token
+      token: ${INFLUXDB_TOKEN}

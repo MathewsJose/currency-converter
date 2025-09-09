@@ -37,7 +37,7 @@ services:
       - redis_data:/data
     networks:
       - currency-converter-network
-
+  
   influxdb:
     image: influxdb:2.7
     container_name: currency-converter-influxdb
@@ -47,31 +47,31 @@ services:
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=password123
-      - DOCKER_INFLUXDB_INIT_ORG=currency-org
-      - DOCKER_INFLUXDB_INIT_BUCKET=currency-metrics
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+      - DOCKER_INFLUXDB_INIT_PASSWORD=influxdb_password_123
+      - DOCKER_INFLUXDB_INIT_ORG=currency-converter
+      - DOCKER_INFLUXDB_INIT_BUCKET=currency_converter
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=currency_converter_token_123
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w
     volumes:
       - influxdb_data:/var/lib/influxdb2
     networks:
       - currency-converter-network
 
   grafana:
-    image: grafana/grafana:10.2.0
+    image: grafana/grafana:latest
     container_name: currency-converter-grafana
     restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin123
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
     volumes:
       - grafana_data:/var/lib/grafana
       - ./docker/grafana/provisioning:/etc/grafana/provisioning
-    depends_on:
-      - influxdb
     networks:
       - currency-converter-network
+    depends_on:
+      - influxdb
 
 volumes:
   redis_data:
