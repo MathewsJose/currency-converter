@@ -85,6 +85,20 @@ app/
 ### External Services
 - **Swop.cx API** - Real-time exchange rate provider
 
+## 📸 Application Screenshots
+
+### API Testing (Postman)
+![API Response](https://drive.google.com/file/d/1OImEQvZWIHI9e6m9YhioZGoxtHleiPWT/view?usp=sharing)
+*Postman test showing successful EUR to USD conversion with formatted output*
+
+### Vue.js Frontend
+![Frontend Interface](https://drive.google.com/file/d/1VF9wAwl0dTn8uGF_cDgbXP9gCGea66Bd/view?usp=sharing)
+*Clean, responsive Vue.js interface for currency conversion*
+
+### Grafana Monitoring Dashboard
+![Grafana Dashboard](https://drive.google.com/file/d/1Bq3e9kSZkrhiN8B694_xj5WfyliWBt4k/view?usp=sharing)
+*Real-time monitoring showing conversion requests, response times, and currency pair analytics*
+
 ##  Quick Start
 
 ### Prerequisites
