@@ -78,6 +78,20 @@ services:
     depends_on:
       - influxdb
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: currency-converter-frontend
+    restart: unless-stopped
+    networks:
+      - currency-converter-network
+    ports:
+      - "8080:80"
+    depends_on:
+      - nginx
+      - app
+
 volumes:
   redis_data:
     driver: local

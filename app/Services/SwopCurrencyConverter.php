@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\Contracts\CurrencyConverterInterface;
 use App\DataTransferObjects\CurrencyConversionResult;
+use App\Exceptions\CurrencyConversionException;
 use App\Services\SimpleInfluxService;
 use App\Services\InfluxDBService;
 use Illuminate\Support\Facades\Cache;
@@ -38,7 +39,7 @@ class SwopCurrencyConverter implements CurrencyConverterInterface
             fromCurrency: $fromCurrency,
             toCurrency: $toCurrency,
             exchangeRate: $exchangeRate,
-            convertedAmount: $convertedAmount
+            convertedAmount: round($convertedAmount, 2, PHP_ROUND_HALF_UP)
         );
     }
 

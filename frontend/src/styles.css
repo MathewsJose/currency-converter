@@ -1,0 +1,6 @@
+input,select,button{font:inherit}
+.form-row{display:flex;gap:8px;flex-wrap:wrap}
+.card{border:1px solid #e6e6e6;padding:16px;border-radius:8px}
+.result{margin-top:12px;padding:12px;background:#f7f7f8;border-radius:6px}
+.error{color:#b00020}
+.small{font-size:0.85rem;color:#555}
