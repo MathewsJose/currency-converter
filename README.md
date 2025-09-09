@@ -105,7 +105,7 @@ app/
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone git clone https://github.com/MathewsJose/currency-converter.git
 cd currency-converter
 ```
 
