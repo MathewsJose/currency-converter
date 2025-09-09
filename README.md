@@ -1,61 +1,279 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Currency Converter Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A production-ready currency conversion service built with Laravel, featuring real-time exchange rates, comprehensive monitoring, and a modern Vue.js frontend.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Core Functionality
+- **Real-time Currency Conversion**: Leverages Swop.cx API for  exchange rates
+- **Multi-currency Support**: Convert between major world currencies (USD, EUR, GBP, JPY, etc.)
+- **Input Validation**: Robust validation for amounts and currency codes
+- **Internationalization**: Formatted currency display using PHP's NumberFormatter
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Performance & Reliability
+- **Redis Caching**: Exchange rates cached for 1 hour to optimize API calls
+- **Retry Logic**: Automatic retry mechanism for failed API requests
+- **Error Handling**: Comprehensive error handling with custom exceptions
+- **Request Timeout**: 10-second timeout with circuit breaker pattern
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Monitoring & Analytics
+- **InfluxDB Integration**: Real-time metrics collection for all conversions and API calls
+- **Grafana Dashboard**: Visual monitoring of conversion rates, API response times, and error rates
 
-## Learning Laravel
+### Security & Best Practices
+- **Input Sanitization**: All inputs validated and sanitized
+- **Rate Limiting**: Built-in protection against abuse
+- **SOLID Principles**: Clean architecture with dependency injection
+- **Interface Segregation**: Service contracts for easy testing and swapping
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Frontend Experience
+- **Vue.js 3 Interface**: Modern, responsive user interface
+- **Real-time Feedback**: Loading states and error handling
+- **Conversion History**: Recent conversions tracking
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Architecture
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Backend Structure
+```
+app/
+├── Console/Commands/           # Artisan commands
+│   └── CheckInfluxDBConnection.php
+├── DataTransferObjects/        # Data transfer objects
+│   └── CurrencyConversionResult.php
+├── Exceptions/                 # Custom exceptions
+│   └── CurrencyConversionException.php
+├── Http/
+│   ├── Controllers/           # API controllers
+│   │   └── CurrencyConverterController.php
+│   └── Requests/              # Form request validation
+│       └── ConvertCurrencyRequest.php
+├── Providers/                 # Service providers
+│   ├── CurrencyServiceProvider.php
+│   └── InfluxDBServiceProvider.php
+└── Services/                  # Business logic
+    ├── Contracts/
+    │   └── CurrencyConverterInterface.php
+    ├── InfluxDBService.php
+    └── SwopCurrencyConverter.php
+```
 
-## Laravel Sponsors
+### Key Design Patterns
+- **Dependency Injection**: Services injected through Laravel's IoC container
+- **Repository Pattern**: Interface-based service layer for easy testing
+- **Data Transfer Objects**: Structured data transfer with type safety
+- **Service Layer**: Business logic separated from controllers
+- **Observer Pattern**: Event-driven metrics logging
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Technology Stack
 
-### Premium Partners
+### Backend
+- **PHP 8.4** - Modern PHP with strong typing
+- **Laravel 12** - Latest Robust web application framework
+- **Redis** - High-performance caching layer
+- **InfluxDB 2.7** - Time-series database for metrics
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Frontend
+- **Vue.js 3** - Progressive JavaScript framework
+- **Composition API** - Modern Vue development approach
+- **Axios** - HTTP client for API communication
 
-## Contributing
+### Infrastructure
+- **Docker & Docker Compose** - Containerized deployment
+- **Nginx** - High-performance web server
+- **Grafana** - Analytics and monitoring dashboards
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### External Services
+- **Swop.cx API** - Real-time exchange rate provider
 
-## Code of Conduct
+##  Quick Start
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Prerequisites
+- Docker & Docker Compose
+- Git
 
-## Security Vulnerabilities
+### Installation
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd currency-converter
+```
 
-## License
+2. **Environment Setup**
+```bash
+cp .env.example .env
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. **Configure environment variables**
+```env
+# Swop API Configuration
+SWOP_API_KEY=your_swop_api_key
+SWOP_BASE_URL=https://swop.cx/rest
+
+# InfluxDB Configuration
+INFLUXDB_URL=http://influxdb:8086
+INFLUXDB_TOKEN=currency_converter_token_123
+INFLUXDB_BUCKET=currency_converter
+INFLUXDB_ORG=currency-converter
+
+# Redis Configuration
+REDIS_HOST=redis
+REDIS_PORT=6379
+```
+
+4. **Start the application**
+```bash
+docker-compose up -d
+```
+
+5. **Install dependencies**
+```bash
+docker-compose exec app composer install
+docker-compose exec app php artisan key:generate
+```
+
+### Access Points
+- **API**: http://localhost:8000
+- **Frontend**: http://localhost:8080
+- **Grafana Dashboard**: http://localhost:3000 (admin/admin123)
+- **InfluxDB UI**: http://localhost:8086
+
+##  API Reference
+
+### Convert Currency
+**POST** `/api/convert`
+
+#### Request Body
+```json
+{
+    "amount": 100.50,
+    "from_currency": "USD",
+    "to_currency": "EUR"
+}
+```
+
+#### Response
+```json
+{
+    "success": true,
+    "data": {
+        "amount": 100.50,
+        "from_currency": "USD",
+        "to_currency": "EUR",
+        "exchange_rate": 0.850000,
+        "converted_amount": 85.43,
+        "formatted_converted_amount": "€85.43",
+        "formatted_exchange_rate": "0.850000"
+    }
+}
+```
+
+#### Error Response
+```json
+{
+    "success": false,
+    "message": "Validation errors",
+    "errors": {
+        "amount": ["Amount must be at least 0.01"]
+    }
+}
+```
+
+### Validation Rules
+- **amount**: Required, numeric, minimum 0.01
+- **from_currency**: Required, 3 uppercase letters (e.g., USD)
+- **to_currency**: Required, 3 uppercase letters, different from from_currency
+
+##  Testing
+
+### Run Tests
+```bash
+docker-compose exec app php artisan test
+```
+
+### Test Coverage
+- **Feature Tests**: API endpoint validation and response structure
+- **Unit Tests**: Service layer business logic
+
+### Health Checks
+```bash
+# Check InfluxDB connection
+docker-compose exec app php artisan influxdb:check
+```
+
+##  Monitoring & Analytics
+
+### Metrics Collected
+- **Conversion Metrics**: Success/failure rates, response times
+- **API Metrics**: External API call performance and errors
+- **Business Metrics**: Popular currency pairs, conversion volumes
+
+### Grafana Dashboards
+Access Grafana at http://localhost:3000 to view:
+- Real-time conversion statistics
+- API performance metrics
+- Error rate monitoring
+- Currency pair popularity
+
+### InfluxDB Measurements
+- `currency_conversion`: Conversion request metrics
+- `exchange_rate_api`: External API call metrics
+
+## 🔧 Configuration
+
+### Cache Configuration
+- **TTL**: 3600 seconds (1 hour) for exchange rates
+- **Driver**: Redis for high performance
+- **Invalidation**: Automatic based on TTL
+
+### API Configuration
+- **Timeout**: 10 seconds for external API calls
+- **Retries**: 3 attempts with 100ms delay
+- **Rate Limiting**: Built into service layer
+
+### Security Configuration
+- Input validation on endpoint
+- CORS headers configured
+- Request size limits enforced
+
+##  Production Considerations
+
+### Performance
+- Exchange rates cached for optimal performance
+- Monitoring for bottlenecks
+
+### Scalability
+- Stateless application design
+- Redis for shared caching
+- Container-ready architecture
+
+### Security
+- Input validation and sanitization
+- Error message sanitization
+- Environment-based configuration
+
+### Monitoring
+- Comprehensive metrics collection
+- Real-time alerting capabilities
+- Performance tracking
+
+##  Development
+
+### Code Standards
+- **PSR-12** coding standards
+- **SOLID** principles implementation
+- **Clean Architecture** patterns
+- **Type Declarations** throughout
+
+### Architecture Highlights
+- **Interface Segregation**: CurrencyConverterInterface
+- **Dependency Injection**: Service container usage
+- **Single Responsibility**: Focused service classes
+- **Open/Closed Principle**: Extensible through interfaces
+
+### Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Write tests for new functionality
+4. Ensure all tests pass
+5. Submit a pull request

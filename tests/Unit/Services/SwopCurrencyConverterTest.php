@@ -1,5 +1,4 @@
 <?php
-// tests/Unit/Services/SwopCurrencyConverterTest.php
 
 namespace Tests\Unit\Services;
 
