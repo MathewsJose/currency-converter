@@ -55,32 +55,36 @@ async function convertCurrency() {
   error.value = ''
   loading.value = true
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/convert`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        amount: amount.value,
-        from_currency: fromCurrency.value,
-        to_currency: toCurrency.value
-      }),
-    })
+  if (fromCurrency.value && toCurrency.value && fromCurrency.value === toCurrency.value) {
+      error.value = 'Source and destination currencies cannot be the same'; 
+      loading.value = false     
+  }
+  else{  
+    try {
+      const response = await fetch(`${API_BASE_URL}/convert`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: amount.value,
+          from_currency: fromCurrency.value,
+          to_currency: toCurrency.value
+        }),
+      })
 
-    const data = await response.json()
-    if (!response.ok) {
-      error.value = data.message || 'Conversion failed'
-    }
-    else if (response.status === 422) {
-      error.value = 'Need to upgrade account to perform this request';
-    }
-    else {
-      result.value = data.data
-    }
+      const data = await response.json()
+      if (!response.ok) {
+        error.value = 'Currency conversion is currently unavailable. Please try again later.';
+      }
+      else {
+        result.value = data.data
+      }
 
-  } catch (err) {
-    error.value = err.message || 'Network error'
-  } finally {
-    loading.value = false
+    } catch (error) {
+      error.value = 'Currency conversion is currently unavailable. Please try again later.';                
+      console.error('Conversion error:', error);
+    } finally {
+      loading.value = false
+    }
   }
 }
 </script>

@@ -23,38 +23,7 @@
           "unit": "short"
         }
       }
-    },
-    {
-        "id": 2,
-        "title": "Success Rate",
-        "type": "stat",
-        "gridPos": {"x": 6, "y": 0, "w": 6, "h": 6},
-        "targets": [
-            {
-            "datasource": {"type": "influxdb", "uid": "InfluxDB"},
-            "query": "successful = from(bucket: \"currency_converter\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"currency_conversion\")\n  |> filter(fn: (r) => r.status == \"success\")\n  |> count()\n  \ntotal = from(bucket: \"currency_converter\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"currency_conversion\")\n  |> count()\n  \njoin(tables: {successful: successful, total: total}, on: [\"_time\"], method: \"inner\")\n  |> map(fn: (r) => ({\n    _value: r._value_successful / r._value_total * 100.0,\n    _time: r._time\n  }))",
-            "rawQuery": true,
-            "refId": "A"
-            }
-        ],
-        "fieldConfig": {
-            "defaults": {
-            "color": {"mode": "thresholds"},
-            "unit": "percent",
-            "decimals": 1,
-            "min": 0,
-            "max": 100,
-            "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                {"color": "red", "value": 0},
-                {"color": "yellow", "value": 80},
-                {"color": "green", "value": 95}
-                ]
-                }
-            }
-        }
-    },
+    },    
     {
       "id": 3,
       "title": "Conversion Requests Over Time",

@@ -85,18 +85,18 @@ app/
 ### External Services
 - **Swop.cx API** - Real-time exchange rate provider
 
-## 📸 Application Screenshots
+## Application Screenshots
 
 ### API Testing (Postman)
-![API Response](https://drive.google.com/file/d/1OImEQvZWIHI9e6m9YhioZGoxtHleiPWT/view?usp=sharing)
+![API Response](./resources/images/currency_converter_entpoint.png)
 *Postman test showing successful EUR to USD conversion with formatted output*
 
 ### Vue.js Frontend
-![Frontend Interface](https://drive.google.com/file/d/1VF9wAwl0dTn8uGF_cDgbXP9gCGea66Bd/view?usp=sharing)
+![Frontend Interface](./resources/images/currency_converter_frontend.png)
 *Clean, responsive Vue.js interface for currency conversion*
 
 ### Grafana Monitoring Dashboard
-![Grafana Dashboard](https://drive.google.com/file/d/1Bq3e9kSZkrhiN8B694_xj5WfyliWBt4k/view?usp=sharing)
+![Grafana Dashboard](./resources/images/currency_converter_grafana.png)
 *Real-time monitoring showing conversion requests, response times, and currency pair analytics*
 
 ##  Quick Start
@@ -233,7 +233,7 @@ Access Grafana at http://localhost:3000 to view:
 - `currency_conversion`: Conversion request metrics
 - `exchange_rate_api`: External API call metrics
 
-## 🔧 Configuration
+##  Configuration
 
 ### Cache Configuration
 - **TTL**: 3600 seconds (1 hour) for exchange rates
@@ -284,10 +284,3 @@ Access Grafana at http://localhost:3000 to view:
 - **Dependency Injection**: Service container usage
 - **Single Responsibility**: Focused service classes
 - **Open/Closed Principle**: Extensible through interfaces
-
-### Contributing
-1. Fork the repository
-2. Create a feature branch
-3. Write tests for new functionality
-4. Ensure all tests pass
-5. Submit a pull request

@@ -1,21 +1,65 @@
 {
-  "dashboard": {
-    "title": "API Performance Metrics",
-    "panels": [
-      {
-        "title": "API Response Times",
-        "type": "timeseries",
-        "targets": [{
-          "query": "from(bucket: \"currency_converter\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"exchange_rate_api\")\n  |> filter(fn: (r) => r._field == \"duration_ms\")\n  |> aggregateWindow(every: 1m, fn: mean, createEmpty: false)"
-        }]
-      },
-      {
-        "title": "API Success Rate",
-        "type": "stat",
-        "targets": [{
-          "query": "from(bucket: \"currency_converter\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"exchange_rate_api\")\n  |> group(columns: [\"status\"])\n  |> count()"
-        }]
+  "id": null,
+  "title": "API Performance Metrics",
+  "tags": ["api", "performance", "monitoring"],
+  "timezone": "browser",
+  "panels": [
+    {
+      "id": 1,
+      "title": "API Response Times (ms)",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8},
+      "targets": [
+        {
+          "datasource": {"type": "influxdb", "uid": "InfluxDB"},
+          "query": "from(bucket: \"currency_converter\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"exchange_rate_api\")\n  |> filter(fn: (r) => r._field == \"duration_ms\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)",
+          "rawQuery": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "unit": "ms",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "showPoints": "auto",
+            "pointSize": 5
+          }
+        }
       }
-    ]
-  }
+    },    
+    {
+      "id": 3,
+      "title": "API Requests Over Time",
+      "type": "timeseries",
+      "gridPos": {"x": 0, "y": 8, "w": 12, "h": 8},
+      "targets": [
+        {
+          "datasource": {"type": "influxdb", "uid": "InfluxDB"},
+          "query": "from(bucket: \"currency_converter\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"exchange_rate_api\")\n  |> aggregateWindow(every: v.windowPeriod, fn: count, createEmpty: false)",
+          "rawQuery": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"}
+        }
+      }
+    }
+  ],
+  "time": {"from": "now-1h", "to": "now"},
+  "timepicker": {
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"]
+  },
+  "refresh": "10s",
+  "schemaVersion": 37,
+  "version": 1,
+  "editable": true
 }
