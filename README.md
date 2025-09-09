@@ -14,7 +14,6 @@ A production-ready currency conversion service built with Laravel, featuring rea
 - **Redis Caching**: Exchange rates cached for 1 hour to optimize API calls
 - **Retry Logic**: Automatic retry mechanism for failed API requests
 - **Error Handling**: Comprehensive error handling with custom exceptions
-- **Request Timeout**: 10-second timeout with circuit breaker pattern
 
 ### Monitoring & Analytics
 - **InfluxDB Integration**: Real-time metrics collection for all conversions and API calls
@@ -22,14 +21,12 @@ A production-ready currency conversion service built with Laravel, featuring rea
 
 ### Security & Best Practices
 - **Input Sanitization**: All inputs validated and sanitized
-- **Rate Limiting**: Built-in protection against abuse
 - **SOLID Principles**: Clean architecture with dependency injection
 - **Interface Segregation**: Service contracts for easy testing and swapping
 
 ### Frontend Experience
 - **Vue.js 3 Interface**: Modern, responsive user interface
 - **Real-time Feedback**: Loading states and error handling
-- **Conversion History**: Recent conversions tracking
 
 ## Architecture
 
@@ -62,7 +59,6 @@ app/
 - **Repository Pattern**: Interface-based service layer for easy testing
 - **Data Transfer Objects**: Structured data transfer with type safety
 - **Service Layer**: Business logic separated from controllers
-- **Observer Pattern**: Event-driven metrics logging
 
 ## Technology Stack
 
@@ -240,41 +236,9 @@ Access Grafana at http://localhost:3000 to view:
 - **Driver**: Redis for high performance
 - **Invalidation**: Automatic based on TTL
 
-### API Configuration
-- **Timeout**: 10 seconds for external API calls
-- **Retries**: 3 attempts with 100ms delay
-- **Rate Limiting**: Built into service layer
-
-### Security Configuration
-- Input validation on endpoint
-- CORS headers configured
-- Request size limits enforced
-
-##  Production Considerations
-
-### Performance
-- Exchange rates cached for optimal performance
-- Monitoring for bottlenecks
-
-### Scalability
-- Stateless application design
-- Redis for shared caching
-- Container-ready architecture
-
-### Security
-- Input validation and sanitization
-- Error message sanitization
-- Environment-based configuration
-
-### Monitoring
-- Comprehensive metrics collection
-- Real-time alerting capabilities
-- Performance tracking
-
 ##  Development
 
 ### Code Standards
-- **PSR-12** coding standards
 - **SOLID** principles implementation
 - **Clean Architecture** patterns
 - **Type Declarations** throughout
