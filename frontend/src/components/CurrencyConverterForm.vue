@@ -48,7 +48,7 @@ const currencies = [
   'USD', 'EUR', 'GBP', 'JPY', 'CHF', 'AUD', 'CAD'
 ]
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 async function convertCurrency() {
   result.value = null
@@ -61,7 +61,7 @@ async function convertCurrency() {
   }
   else{  
     try {
-      const response = await fetch(`${API_BASE_URL}/convert`, {
+      const response = await fetch(`http://localhost:8000/api/convert`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
