@@ -105,7 +105,7 @@ app/
 
 1. **Clone the repository**
 ```bash
-git clone git clone https://github.com/MathewsJose/currency-converter.git
+git clone https://github.com/MathewsJose/currency-converter.git
 cd currency-converter
 ```
 
@@ -114,32 +114,21 @@ cd currency-converter
 cp .env.example .env
 ```
 
-3. **Configure environment variables**
-```env
-# Swop API Configuration
-SWOP_API_KEY=your_swop_api_key
-SWOP_BASE_URL=https://swop.cx/rest
-
-# InfluxDB Configuration
-INFLUXDB_URL=http://influxdb:8086
-INFLUXDB_TOKEN=currency_converter_token_123
-INFLUXDB_BUCKET=currency_converter
-INFLUXDB_ORG=currency-converter
-
-# Redis Configuration
-REDIS_HOST=redis
-REDIS_PORT=6379
-```
-
-4. **Start the application**
+3. **Start the application**
 ```bash
 docker-compose up -d
 ```
 
-5. **Install dependencies**
+4. **Install dependencies**
 ```bash
 docker-compose exec app composer install
 docker-compose exec app php artisan key:generate
+```
+
+5. **Install frontend node**
+```bash
+cd frontend
+npm install
 ```
 
 ### Access Points
